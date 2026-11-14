@@ -11,19 +11,24 @@
   <main class="content-area">
     <section *ngIf="currentScreen === 'welcome'">
       <h1>O Cosmos, Mapeado por Si.</h1>
-      <p>Plataforma de análise astronómica e deteção de anomalias via protocolo SIA v2.</p>
       <button (click)="navigateTo('blink')">Iniciar Varredura</button>
-      <button (click)="navigateTo('data')">Consultar IA</button>
     </section>
 
-    <section *ngIf="currentScreen === 'blink'">
+    <section class="observatory-screen" *ngIf="currentScreen === 'blink'">
       <h2>Terminal do Observatório</h2>
-      <p>Área destinada ao Blink Comparator.</p>
+      <div class="image-container">
+        <img [src]="currentImageUrl" alt="Corte do céu NASA" />
+        <div class="badge-epoch">
+          Filtro Ativo: <strong>{{ activeEpoch === 'A' ? 'Época 01 (Mês 01)' : 'Época 02 (Mês 06)' }}</strong>
+        </div>
+      </div>
+      <div class="controls-area">
+        <button (click)="markNothing()">⏭️ Estático / Sem Alterações</button>
+      </div>
     </section>
 
     <section *ngIf="currentScreen === 'data'">
       <h2>Base de Inteligência Coletiva</h2>
-      <p>Área destinada aos insights e estatísticas.</p>
     </section>
   </main>
 </div>
