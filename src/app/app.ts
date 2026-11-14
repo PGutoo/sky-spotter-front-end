@@ -24,6 +24,10 @@ export class App implements OnInit, OnDestroy {
   savedMarkers: { x: number; y: number; category: string }[] = [];
   selectedCategory = '';
 
+  insights: any = null;
+  loadingInsights = false;
+  activeTab: 'movimento' | 'brilho' | 'ruido' = 'movimento';
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -37,6 +41,27 @@ export class App implements OnInit, OnDestroy {
 
   navigateTo(screen: 'welcome' | 'blink' | 'data') {
     this.currentScreen = screen;
+    if (screen === 'data') {
+      this.fetchInsights();
+    }
+  }
+
+  setActiveTab(tab: 'movimento' | 'brilho' | 'ruido') {
+    this.activeTab = tab;
+  }
+
+  fetchInsights() {
+    this.loadingInsights = true;
+    this.http.get<any>('http://127.0.0.1:8000/api/insights').subscribe({
+      next: (data) => {
+        this.insights = data;
+        this.loadingInsights = false;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar insights:', err);
+        this.loadingInsights = false;
+      }
+    });
   }
 
   startBlinking() {

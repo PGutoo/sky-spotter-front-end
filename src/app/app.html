@@ -12,6 +12,7 @@
     <section *ngIf="currentScreen === 'welcome'">
       <h1>O Cosmos, Mapeado por Si.</h1>
       <button (click)="navigateTo('blink')">Iniciar Varredura</button>
+      <button (click)="navigateTo('data')">Consultar IA</button>
     </section>
 
     <section class="observatory-screen" *ngIf="currentScreen === 'blink'">
@@ -30,31 +31,67 @@
           <button (click)="markNothing()">⏭️ Estático / Sem Alterações</button>
           <button (click)="startAnnotation()">☄️ Isolar Anomalia</button>
         </div>
-
         <div *ngIf="isAnnotationMode">
           <div *ngIf="!currentMarker">
-            <p>👆 Defina as coordenadas clicando no alvo visual.</p>
-            <button (click)="submitAndNext()">
-              {{ savedMarkers.length > 0 ? 'Gravar Dados e Avançar' : 'Abortar Captura' }}
-            </button>
+            <button (click)="submitAndNext()">{{ savedMarkers.length > 0 ? 'Gravar Dados e Avançar' : 'Abortar Captura' }}</button>
           </div>
-
           <div *ngIf="currentMarker">
-            <p>Parâmetros da Assinatura Detetada:</p>
-            <button [class.active]="selectedCategory === 'Movimento'" (click)="setCategory('Movimento')">🪐 Transiente (Movimento)</button>
-            <button [class.active]="selectedCategory === 'Brilho'" (click)="setCategory('Brilho')">✨ Variável (Brilho)</button>
-            <button [class.active]="selectedCategory === 'Ruído'" (click)="setCategory('Ruído')">📡 Ruído do Sensor</button>
-            <div>
-              <button (click)="cancelPoint()">Remover Ponto</button>
-              <button [disabled]="!selectedCategory" (click)="savePoint()">Confirmar Registo</button>
-            </div>
+            <button [class.active]="selectedCategory === 'Movimento'" (click)="setCategory('Movimento')">🪐 Transiente</button>
+            <button [class.active]="selectedCategory === 'Brilho'" (click)="setCategory('Brilho')">✨ Variável</button>
+            <button [class.active]="selectedCategory === 'Ruído'" (click)="setCategory('Ruído')">📡 Ruído</button>
+            <button (click)="cancelPoint()">Remover</button>
+            <button [disabled]="!selectedCategory" (click)="savePoint()">Confirmar</button>
           </div>
         </div>
       </div>
     </section>
 
-    <section *ngIf="currentScreen === 'data'">
+    <section class="data-screen" *ngIf="currentScreen === 'data'">
       <h2>Base de Inteligência Coletiva</h2>
+      <p *ngIf="loadingInsights">A compilar matriz de dados astrométricos...</p>
+
+      <div *ngIf="!loadingInsights && insights">
+        <p>Total de Descobertas: <strong>{{ insights.total_registos }}</strong></p>
+        <ul>
+          <li *ngFor="let sug of insights.sugestoes_cientificas">{{ sug }}</li>
+        </ul>
+
+        <div class="tabs-header">
+          <button [class.active]="activeTab === 'movimento'" (click)="setActiveTab('movimento')">🪐 Transientes ({{ insights.paineis.movimento.count }})</button>
+          <button [class.active]="activeTab === 'brilho'" (click)="setActiveTab('brilho')">✨ Variáveis ({{ insights.paineis.brilho.count }})</button>
+          <button [class.active]="activeTab === 'ruido'" (click)="setActiveTab('ruido')">📡 Artefatos ({{ insights.paineis.ruido.count }})</button>
+        </div>
+
+        <table *ngIf="activeTab === 'movimento'">
+          <thead><tr><th>Hash</th><th>Dec</th><th>RA</th><th>Vetor X,Y</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let item of insights.paineis.movimento.itens">
+              <td>{{ item.image_id }}</td><td>{{ item.dec }}</td><td>{{ item.ra }}</td>
+              <td>({{ item.x | number:'1.0-1' }}%, {{ item.y | number:'1.0-1' }}%)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table *ngIf="activeTab === 'brilho'">
+          <thead><tr><th>Hash</th><th>Dec</th><th>RA</th><th>Vetor X,Y</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let item of insights.paineis.brilho.itens">
+              <td>{{ item.image_id }}</td><td>{{ item.dec }}</td><td>{{ item.ra }}</td>
+              <td>({{ item.x | number:'1.0-1' }}%, {{ item.y | number:'1.0-1' }}%)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table *ngIf="activeTab === 'ruido'">
+          <thead><tr><th>Hash</th><th>Dec</th><th>RA</th><th>Vetor X,Y</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let item of insights.paineis.ruido.itens">
+              <td>{{ item.image_id }}</td><td>{{ item.dec }}</td><td>{{ item.ra }}</td>
+              <td>({{ item.x | number:'1.0-1' }}%, {{ item.y | number:'1.0-1' }}%)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
 </div>
