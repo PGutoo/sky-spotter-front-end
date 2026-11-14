@@ -43,18 +43,37 @@ html, body {
   overflow: hidden;
 }
 
+.cursor-crosshair {
+  cursor: crosshair;
+}
+
 .image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
 }
 
-.badge-epoch {
+.marker {
   position: absolute;
-  bottom: 12px;
-  left: 12px;
-  background: rgba(5, 11, 20, 0.85);
-  padding: 6px 12px;
-  border-radius: 1rem;
-  font-size: 0.8rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.current-marker {
+  background-color: rgba(45, 212, 191, 0.4);
+  border: 2px solid #2dd4bf;
+}
+
+.saved-marker {
+  background-color: rgba(244, 63, 94, 0.4);
+  border: 2px solid #f43f5e;
+}
+
+button.active {
+  border: 2px solid #2dd4bf;
+  color: #2dd4bf;
 }

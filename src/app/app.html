@@ -16,14 +16,40 @@
 
     <section class="observatory-screen" *ngIf="currentScreen === 'blink'">
       <h2>Terminal do Observatório</h2>
-      <div class="image-container">
+      <div class="image-container" [class.cursor-crosshair]="isAnnotationMode" (click)="handleImageClick($event)">
         <img [src]="currentImageUrl" alt="Corte do céu NASA" />
         <div class="badge-epoch">
           Filtro Ativo: <strong>{{ activeEpoch === 'A' ? 'Época 01 (Mês 01)' : 'Época 02 (Mês 06)' }}</strong>
         </div>
+        <div *ngFor="let m of savedMarkers" class="marker saved-marker" [style.left.%]="m.x" [style.top.%]="m.y"></div>
+        <div *ngIf="currentMarker" class="marker current-marker" [style.left.%]="currentMarker.x" [style.top.%]="currentMarker.y"></div>
       </div>
+
       <div class="controls-area">
-        <button (click)="markNothing()">⏭️ Estático / Sem Alterações</button>
+        <div *ngIf="!isAnnotationMode">
+          <button (click)="markNothing()">⏭️ Estático / Sem Alterações</button>
+          <button (click)="startAnnotation()">☄️ Isolar Anomalia</button>
+        </div>
+
+        <div *ngIf="isAnnotationMode">
+          <div *ngIf="!currentMarker">
+            <p>👆 Defina as coordenadas clicando no alvo visual.</p>
+            <button (click)="submitAndNext()">
+              {{ savedMarkers.length > 0 ? 'Gravar Dados e Avançar' : 'Abortar Captura' }}
+            </button>
+          </div>
+
+          <div *ngIf="currentMarker">
+            <p>Parâmetros da Assinatura Detetada:</p>
+            <button [class.active]="selectedCategory === 'Movimento'" (click)="setCategory('Movimento')">🪐 Transiente (Movimento)</button>
+            <button [class.active]="selectedCategory === 'Brilho'" (click)="setCategory('Brilho')">✨ Variável (Brilho)</button>
+            <button [class.active]="selectedCategory === 'Ruído'" (click)="setCategory('Ruído')">📡 Ruído do Sensor</button>
+            <div>
+              <button (click)="cancelPoint()">Remover Ponto</button>
+              <button [disabled]="!selectedCategory" (click)="savePoint()">Confirmar Registo</button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
