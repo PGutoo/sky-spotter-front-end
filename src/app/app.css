@@ -1,0 +1,28 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #050b14;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.global-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #1e293b;
+}
+
+.brand, .nav-links a {
+  cursor: pointer;
+  margin-right: 1.5rem;
+}
+
+.nav-links a.active {
+  color: #2dd4bf;
+  font-weight: bold;
+}
+
+.content-area {
+  padding: 2rem;
+}
