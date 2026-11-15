@@ -1,75 +1,75 @@
 <div class="app-wrapper">
   
-  <!-- ================= HEADER / NAVBAR GLOBAL ================= -->
+  <!-- ================= GLOBAL HEADER / NAVBAR ================= -->
   <header class="global-header">
     <div class="brand" (click)="navigateTo('welcome')">
       <span class="logo-icon">☄️</span>
       <span class="logo-text">Sky Spotter</span>
     </div>
     <nav class="nav-links">
-      <a [class.active]="currentScreen === 'welcome'" (click)="navigateTo('welcome')">Visão Geral</a>
-      <a [class.active]="currentScreen === 'blink'" (click)="navigateTo('blink')">Observatório</a>
-      <a [class.active]="currentScreen === 'data'" (click)="navigateTo('data')">Base de Inteligência</a>
+      <a [class.active]="currentScreen === 'welcome'" (click)="navigateTo('welcome')">Overview</a>
+      <a [class.active]="currentScreen === 'blink'" (click)="navigateTo('blink')">Observatory</a>
+      <a [class.active]="currentScreen === 'data'" (click)="navigateTo('data')">Intelligence Base</a>
     </nav>
   </header>
 
-  <!-- ================= ÁREA DE CONTEÚDO PRINCIPAL ================= -->
+  <!-- ================= MAIN CONTENT AREA ================= -->
   <main class="content-area">
     
-    <!-- TELA 1: BOAS-VINDAS / LANDING PAGE ORIGINAL -->
+    <!-- SCREEN 1: WELCOME / LANDING PAGE -->
     <div class="welcome-screen" *ngIf="currentScreen === 'welcome'">
       
-      <!-- Fundo de Espaço Profundo + Grelha Técnica -->
+      <!-- Deep Space Background + Tech Grid -->
       <div class="hero-background"></div>
       <div class="tech-grid-overlay"></div>
 
       <div class="hero-layout">
         
-        <!-- Coluna Esquerda: Mensagem Principal -->
+        <!-- Left Column: Main Message -->
         <div class="hero-text-content">
           <div class="status-pill animate-slide-up">
-            <span class="dot-green"></span> Rede SIA v2 Online
+            <span class="dot-green"></span> SIA v2 Network Online
           </div>
           
-          <h1 class="animate-slide-up-delay">O Cosmos,<br><span>Mapeado por Si.</span></h1>
+          <h1 class="animate-slide-up-delay">The Cosmos,<br><span>Mapped by You.</span></h1>
           
           <p class="hero-subtitle animate-slide-up-delay-2">
-            Transformamos petabytes de dados brutos dos telescópios WISE e SPHEREx num observatório visual acessível. Detete asteróides, reporte anomalias e contribua para a ciência cidadã.
+            We transform petabytes of raw data from the WISE and SPHEREx telescopes into an accessible visual observatory. Detect asteroids, report anomalies, and contribute to citizen science.
           </p>
 
           <div class="welcome-actions animate-slide-up-delay-2">
             <button class="btn-primary glow-effect" (click)="navigateTo('blink')">
-              Iniciar Varredura (Blink)
+              Start Scan (Blink)
             </button>
             <button class="btn-secondary" (click)="navigateTo('data')">
-              Consultar IA
+              Consult AI
             </button>
           </div>
         </div>
 
-        <!-- Coluna Direita: Painel HUD de Telemetria -->
+        <!-- Right Column: HUD Telemetry Panel -->
         <div class="hero-visual-content animate-fade-in">
           <div class="telemetry-panel glass-card animate-float">
             <div class="panel-header">
-              <h4>Telemetria do Sistema</h4>
+              <h4>System Telemetry</h4>
               <span class="badge-live">LIVE</span>
             </div>
             
             <div class="telemetry-grid">
               <div class="tel-item">
-                <span class="tel-label">Objetos Processados</span>
+                <span class="tel-label">Processed Objects</span>
                 <span class="tel-value highlight">1.2M+</span>
               </div>
               <div class="tel-item">
-                <span class="tel-label">Precisão Astrométrica</span>
+                <span class="tel-label">Astrometric Precision</span>
                 <span class="tel-value">99.8%</span>
               </div>
               <div class="tel-item">
-                <span class="tel-label">Sincronização Cloud</span>
+                <span class="tel-label">Cloud Sync</span>
                 <span class="tel-value">Supabase Sync</span>
               </div>
               <div class="tel-item">
-                <span class="tel-label">Latência do Motor</span>
+                <span class="tel-label">Engine Latency</span>
                 <span class="tel-value highlight">12ms</span>
               </div>
             </div>
@@ -84,28 +84,28 @@
     </div>
 
 
-    <!-- TELA 2: O OBSERVATÓRIO (BLINK COMPARATOR) -->
+    <!-- SCREEN 2: THE OBSERVATORY (BLINK COMPARATOR) -->
     <div class="observatory-screen animate-fade-in" *ngIf="currentScreen === 'blink'">
       <header class="obs-header">
         <div>
-          <h2>Terminal do Observatório</h2>
-          <p>Comparador de Épocas em Tempo Real</p>
+          <h2>Observatory Terminal</h2>
+          <p>Real-Time Epoch Comparator</p>
         </div>
         <div class="status-indicator">
-          <span class="pulse-dot"></span> Ligação Segura
+          <span class="pulse-dot"></span> Secure Link
         </div>
       </header>
 
       <div class="card glass-card">
         <div class="image-container" 
-            [class.cursor-crosshair]="isAnnotationMode"
-            (click)="handleImageClick($event)">
+             [class.cursor-crosshair]="isAnnotationMode"
+             (click)="handleImageClick($event)">
           
-          <img [src]="imageEpochA" [class.hidden-epoch]="activeEpoch !== 'A'" alt="Época 01 NASA" />
-          <img [src]="imageEpochB" [class.hidden-epoch]="activeEpoch !== 'B'" alt="Época 02 NASA" />
+          <img [src]="imageEpochA" [class.hidden-epoch]="activeEpoch !== 'A'" alt="NASA Epoch 01" />
+          <img [src]="imageEpochB" [class.hidden-epoch]="activeEpoch !== 'B'" alt="NASA Epoch 02" />
           
           <div class="badge-epoch">
-            Filtro Ativo: <strong class="highlight-text">{{ activeEpoch === 'A' ? 'Época 01 (Mês 01)' : 'Época 02 (Mês 06)' }}</strong>
+            Active Filter: <strong class="highlight-text">{{ activeEpoch === 'A' ? 'Epoch 01 (Month 01)' : 'Epoch 02 (Month 06)' }}</strong>
           </div>
 
           <div *ngFor="let m of savedMarkers" class="marker saved-marker" [style.left.%]="m.x" [style.top.%]="m.y"></div>
@@ -114,30 +114,30 @@
 
         <div class="controls-area">
           <div class="decision-buttons" *ngIf="!isAnnotationMode">
-            <button class="btn-skip" (click)="markNothing()">⏭️ Estático / Sem Alterações</button>
-            <button class="btn-found glow-effect" (click)="startAnnotation()">☄️ Isolar Anomalia</button>
+            <button class="btn-skip" (click)="markNothing()">⏭️ Static / No Changes</button>
+            <button class="btn-found glow-effect" (click)="startAnnotation()">☄️ Isolate Anomaly</button>
           </div>
 
           <div class="annotation-panel" *ngIf="isAnnotationMode">
             <div *ngIf="!currentMarker">
-              <div class="instruction">👆 Defina as coordenadas clicando no alvo visual.</div>
+              <div class="instruction">👆 Set coordinates by clicking on the visual target.</div>
               <div class="form-actions mt-3">
                 <button class="btn-submit" (click)="submitAndNext()">
-                  {{ savedMarkers.length > 0 ? 'Gravar Dados e Avançar' : 'Abortar Captura' }}
+                  {{ savedMarkers.length > 0 ? 'Save Data & Next' : 'Abort Capture' }}
                 </button>
               </div>
             </div>
 
             <div class="form-area animate-slide-up" *ngIf="currentMarker">
-              <p>Parâmetros da Assinatura Detetada:</p>
+              <p>Detected Signature Parameters:</p>
               <div class="category-grid">
-                <button [class.active]="selectedCategory === 'Movimento'" (click)="setCategory('Movimento')">🪐 Transiente (Movimento)</button>
-                <button [class.active]="selectedCategory === 'Brilho'" (click)="setCategory('Brilho')">✨ Variável (Brilho)</button>
-                <button [class.active]="selectedCategory === 'Ruído'" (click)="setCategory('Ruído')">📡 Ruído do Sensor</button>
+                <button [class.active]="selectedCategory === 'Movimento'" (click)="setCategory('Movimento')">🪐 Transient (Motion)</button>
+                <button [class.active]="selectedCategory === 'Brilho'" (click)="setCategory('Brilho')">✨ Variable (Brightness)</button>
+                <button [class.active]="selectedCategory === 'Ruído'" (click)="setCategory('Ruído')">📡 Sensor Noise</button>
               </div>
               <div class="form-actions">
-                <button class="btn-cancel" (click)="cancelPoint()">Remover Ponto</button>
-                <button class="btn-submit" [disabled]="!selectedCategory" (click)="savePoint()">Confirmar Registo</button>
+                <button class="btn-cancel" (click)="cancelPoint()">Remove Point</button>
+                <button class="btn-submit" [disabled]="!selectedCategory" (click)="savePoint()">Confirm Record</button>
               </div>
             </div>
           </div>
@@ -146,16 +146,16 @@
     </div>
 
 
-    <!-- TELA 3: PAINEL DE DADOS E INSIGHTS -->
+    <!-- SCREEN 3: DATA & INSIGHTS PANEL -->
     <div class="data-screen animate-fade-in" *ngIf="currentScreen === 'data'">
       <div class="hero-section-data" style="padding-bottom: 2rem; position: relative; z-index: 2;">
-        <h2>Base de Inteligência Coletiva</h2>
-        <p class="hero-subtitle">Mapeamento contínuo gerado pela comunidade Sky Spotter.</p>
+        <h2>Collective Intelligence Base</h2>
+        <p class="hero-subtitle">Continuous mapping generated by the Sky Spotter community.</p>
       </div>
 
       <div class="info-card text-center glass-card" *ngIf="loadingInsights" style="position: relative; z-index: 2;">
         <div style="font-size: 2.5rem; margin-bottom: 1rem;" class="animate-float">🔭</div>
-        <p>A compilar matriz de dados astrométricos...</p>
+        <p>Compiling astrometric data matrix...</p>
       </div>
 
       <div class="insights-container" *ngIf="!loadingInsights && insights?.paineis" style="position: relative; z-index: 2;">
@@ -163,12 +163,12 @@
         <div class="stats-overview">
           <div class="stat-box glass-card">
             <span class="stat-number">{{ insights?.total_registos || 0 }}</span>
-            <span class="stat-label">Descobertas Validadas</span>
+            <span class="stat-label">Validated Discoveries</span>
           </div>
         </div>
 
         <div class="suggestions-box glass-card" *ngIf="insights?.sugestoes_cientificas?.length">
-          <h3>💡 Motor de Recomendações (IA)</h3>
+          <h3>💡 Recommendation Engine (AI)</h3>
           <ul>
             <li *ngFor="let sug of insights.sugestoes_cientificas">{{ sug }}</li>
           </ul>
@@ -176,23 +176,23 @@
 
         <div class="tabs-header">
           <button [class.active]="activeTab === 'movimento'" (click)="setActiveTab('movimento')">
-            🪐 Transientes ({{ insights.paineis.movimento?.count || 0 }})
+            🪐 Transients ({{ insights.paineis.movimento?.count || 0 }})
           </button>
           <button [class.active]="activeTab === 'brilho'" (click)="setActiveTab('brilho')">
-            ✨ Variáveis ({{ insights.paineis.brilho?.count || 0 }})
+            ✨ Variables ({{ insights.paineis.brilho?.count || 0 }})
           </button>
           <button [class.active]="activeTab === 'ruido'" (click)="setActiveTab('ruido')">
-            📡 Artefatos ({{ insights.paineis.ruido?.count || 0 }})
+            📡 Artifacts ({{ insights.paineis.ruido?.count || 0 }})
           </button>
         </div>
 
         <div class="tab-content card glass-card">
           <div *ngIf="activeTab === 'movimento'">
-            <div class="panel-header-title">Objetos Transientes Registados</div>
-            <div *ngIf="!insights.paineis.movimento?.itens?.length" class="empty-state">Sem anomalias ativas nesta secção.</div>
+            <div class="panel-header-title">Registered Transient Objects</div>
+            <div *ngIf="!insights.paineis.movimento?.itens?.length" class="empty-state">No active anomalies in this section.</div>
             <div class="table-responsive" *ngIf="insights.paineis.movimento?.itens?.length > 0">
               <table>
-                <thead><tr><th>Hash da Imagem</th><th>Declinação (Dec)</th><th>Ascensão (RA)</th><th>Vetor X,Y</th></tr></thead>
+                <thead><tr><th>Image Hash</th><th>Declination (Dec)</th><th>Right Ascension (RA)</th><th>X,Y Vector</th></tr></thead>
                 <tbody>
                   <tr *ngFor="let item of insights.paineis.movimento.itens">
                     <td><code>{{ item?.image_id || item?.id | slice:0:8 }}</code></td>
@@ -206,11 +206,11 @@
           </div>
 
           <div *ngIf="activeTab === 'brilho'">
-            <div class="panel-header-title">Variações de Fluxo Luminoso</div>
-            <div *ngIf="!insights.paineis.brilho?.itens?.length" class="empty-state">Sem anomalias ativas nesta secção.</div>
+            <div class="panel-header-title">Luminous Flux Variations</div>
+            <div *ngIf="!insights.paineis.brilho?.itens?.length" class="empty-state">No active anomalies in this section.</div>
             <div class="table-responsive" *ngIf="insights.paineis.brilho?.itens?.length > 0">
               <table>
-                <thead><tr><th>Hash da Imagem</th><th>Declinação (Dec)</th><th>Ascensão (RA)</th><th>Vetor X,Y</th></tr></thead>
+                <thead><tr><th>Image Hash</th><th>Declination (Dec)</th><th>Right Ascension (RA)</th><th>X,Y Vector</th></tr></thead>
                 <tbody>
                   <tr *ngFor="let item of insights.paineis.brilho.itens">
                     <td><code>{{ item?.image_id || item?.id | slice:0:8 }}</code></td>
@@ -224,11 +224,11 @@
           </div>
 
           <div *ngIf="activeTab === 'ruido'">
-            <div class="panel-header-title">Máscara de Ruído e Calibração</div>
-            <div *ngIf="!insights.paineis.ruido?.itens?.length" class="empty-state">Sem anomalias ativas nesta secção.</div>
+            <div class="panel-header-title">Noise & Calibration Mask</div>
+            <div *ngIf="!insights.paineis.ruido?.itens?.length" class="empty-state">No active anomalies in this section.</div>
             <div class="table-responsive" *ngIf="insights.paineis.ruido?.itens?.length > 0">
               <table>
-                <thead><tr><th>Hash da Imagem</th><th>Declinação (Dec)</th><th>Ascensão (RA)</th><th>Vetor X,Y</th></tr></thead>
+                <thead><tr><th>Image Hash</th><th>Declination (Dec)</th><th>Right Ascension (RA)</th><th>X,Y Vector</th></tr></thead>
                 <tbody>
                   <tr *ngFor="let item of insights.paineis.ruido.itens">
                     <td><code>{{ item?.image_id || item?.id | slice:0:8 }}</code></td>
@@ -251,23 +251,23 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <h4>☄️ Sky Spotter</h4>
-        <p>A democratizar a descoberta espacial através de interfaces interativas e inteligência coletiva.</p>
+        <p>Democratizing space discovery through interactive interfaces and collective intelligence.</p>
       </div>
       <div class="footer-links">
-        <h5>Navegação</h5>
-        <a (click)="navigateTo('welcome')">Terminal Principal</a>
-        <a (click)="navigateTo('blink')">Varredura Visual</a>
-        <a (click)="navigateTo('data')">Base de Dados IA</a>
+        <h5>Navigation</h5>
+        <a (click)="navigateTo('welcome')">Main Terminal</a>
+        <a (click)="navigateTo('blink')">Visual Scan</a>
+        <a (click)="navigateTo('data')">AI Database</a>
       </div>
       <div class="footer-links">
-        <h5>Documentação</h5>
-        <a href="#" target="_blank">Repositório Git</a>
-        <a href="#" target="_blank">Stack Tecnológica</a>
-        <a href="#" target="_blank">IRSA NASA API</a>
+        <h5>Documentation</h5>
+        <a href="#" target="_blank">Git Repository</a>
+        <a href="#" target="_blank">Tech Stack</a>
+        <a href="#" target="_blank">NASA IRSA API</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 Sky Spotter Labs. <span>Engenharia de software para exploração espacial.</span></p>
+      <p>&copy; 2026 Sky Spotter Labs. <span>Software engineering for space exploration.</span></p>
     </div>
   </footer>
 
