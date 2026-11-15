@@ -98,10 +98,11 @@
 
       <div class="card glass-card">
         <div class="image-container" 
-             [class.cursor-crosshair]="isAnnotationMode"
-             (click)="handleImageClick($event)">
+            [class.cursor-crosshair]="isAnnotationMode"
+            (click)="handleImageClick($event)">
           
-          <img [src]="currentImageUrl" alt="Corte do céu NASA" />
+          <img [src]="imageEpochA" [class.hidden-epoch]="activeEpoch !== 'A'" alt="Época 01 NASA" />
+          <img [src]="imageEpochB" [class.hidden-epoch]="activeEpoch !== 'B'" alt="Época 02 NASA" />
           
           <div class="badge-epoch">
             Filtro Ativo: <strong class="highlight-text">{{ activeEpoch === 'A' ? 'Época 01 (Mês 01)' : 'Época 02 (Mês 06)' }}</strong>
