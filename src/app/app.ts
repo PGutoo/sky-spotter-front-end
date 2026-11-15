@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
@@ -28,7 +28,11 @@ export class App implements OnInit, OnDestroy {
   loadingInsights = false;
   activeTab: 'movimento' | 'brilho' | 'ruido' = 'movimento';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient,
+    private zone: NgZone
+  ) {}
 
   ngOnInit() {
     this.fetchNasaPair();
@@ -51,35 +55,53 @@ export class App implements OnInit, OnDestroy {
   }
 
   fetchInsights() {
-    this.loadingInsights = true;
-    this.http.get<any>('http://127.0.0.1:8000/api/insights').subscribe({
+    this.zone.run(() => {
+      this.loadingInsights = true;
+      this.cdr.detectChanges();
+    });
+
+    this.http.get<any>('https://sky-spotter-back-end.vercel.app/api/insights').subscribe({
       next: (data) => {
-        this.insights = data;
-        this.loadingInsights = false;
+        this.zone.run(() => {
+          this.insights = data;
+          this.loadingInsights = false;
+          this.cdr.markForCheck();
+          this.cdr.detectChanges();
+        });
       },
       error: (err) => {
-        console.error('Erro ao buscar insights:', err);
-        this.loadingInsights = false;
+        this.zone.run(() => {
+          console.error('Erro ao buscar insights:', err);
+          this.loadingInsights = false;
+          this.cdr.detectChanges();
+        });
       }
     });
   }
 
   startBlinking() {
     this.blinkTimer = setInterval(() => {
-      this.activeEpoch = this.activeEpoch === 'A' ? 'B' : 'A';
-      this.currentImageUrl = this.activeEpoch === 'A' ? this.imageEpochA : this.imageEpochB;
+      this.zone.run(() => {
+        this.activeEpoch = this.activeEpoch === 'A' ? 'B' : 'A';
+        this.currentImageUrl = this.activeEpoch === 'A' ? this.imageEpochA : this.imageEpochB;
+        this.cdr.detectChanges();
+      });
     }, 800);
   }
 
   fetchNasaPair() {
-    this.http.get<any>('http://127.0.0.1:8000/api/nasa-pair').subscribe({
+    this.http.get<any>('https://sky-spotter-back-end.vercel.app/api/nasa-pair').subscribe({
       next: (data) => {
-        this.currentPairMeta = data;
-        this.imageEpochA = data.image_a || data.epoch_a || '';
-        this.imageEpochB = data.image_b || data.epoch_b || '';
-        this.currentImageUrl = this.imageEpochA;
-        this.resetAnnotations();
-      }
+        this.zone.run(() => {
+          this.currentPairMeta = data;
+          this.imageEpochA = data.image_a || data.epoch_a || '';
+          this.imageEpochB = data.image_b || data.epoch_b || '';
+          this.currentImageUrl = this.imageEpochA;
+          this.resetAnnotations();
+          this.cdr.detectChanges();
+        });
+      },
+      error: (err) => console.error('Erro ao buscar par SIA v2:', err)
     });
   }
 
@@ -140,7 +162,7 @@ export class App implements OnInit, OnDestroy {
       annotations: this.savedMarkers
     };
 
-    this.http.post('http://127.0.0.1:8000/api/annotations', payload).subscribe({
+    this.http.post('https://sky-spotter-back-end.vercel.app/api/annotations', payload).subscribe({
       next: () => this.fetchNasaPair(),
       error: (err) => console.error('Erro ao gravar anomalia:', err)
     });

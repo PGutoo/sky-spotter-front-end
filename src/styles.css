@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+/* Reseta as margens padrão do navegador e garante fundo escuro global */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #020617; /* Cor de fundo escura correspondente ao seu tema espacial */
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
